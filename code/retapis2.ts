@@ -378,7 +378,9 @@ Convert.toPosOnArc = function(arcPos: RetapisXYPos = new RetapisXYPos(0, 0), rad
 
 Convert.toAngle = function(pivot: RetapisXYPos = new RetapisXYPos(0, 0), point: RetapisXYPos = new RetapisXYPos(0, 0)): RetapisAngle {
     if (pivot.distance(point) === 0) return new RetapisAngle(0);
-    return new RetapisAngle(Math.acos((point.x - pivot.x) / pivot.distance(point)), RADIAN_MODE);
+    let v: number = Math.acos((point.x - pivot.x) / pivot.distance(point));
+    if (point.y < pivot.y) v = 2 * Math.PI - v;
+    return new RetapisAngle(v, RADIAN_MODE);
 }
 
 Convert.createClosedShape = function (pos: RetapisXYPos, angle: RetapisAngle, lines: LineWithAngle[]): RetapisClosedShape {
